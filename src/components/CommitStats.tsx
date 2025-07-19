@@ -112,15 +112,16 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
     label: string; 
     value: string | number; 
     color: string;
+    gradient: string;
     delay?: number;
-  }> = ({ icon, label, value, color, delay = 0 }) => (
+  }> = ({ icon, label, value, color, gradient, delay = 0 }) => (
     <motion.div 
-      className="bg-card rounded-lg p-4 shadow-md border border-border"
+      className={`rounded-lg p-4 shadow-lg border border-border ${gradient}`}
       variants={cardVariants}
       whileHover={{ 
         scale: 1.05, 
         y: -5,
-        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+        boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
         transition: { duration: 0.2 }
       }}
       whileTap={{ scale: 0.98 }}
@@ -132,7 +133,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
         transition={{ delay: delay + 0.3, duration: 0.4 }}
       >
         <motion.div 
-          className={`p-2 rounded-lg ${color}`}
+          className={`p-2 rounded-lg ${color} shadow-md`}
           whileHover={{ rotate: 360 }}
           transition={{ duration: 0.5 }}
         >
@@ -140,7 +141,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
         </motion.div>
         <div>
           <motion.p 
-            className="text-sm text-muted-foreground"
+            className="text-sm text-muted-foreground font-medium"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: delay + 0.4, duration: 0.3 }}
@@ -148,7 +149,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
             {label}
           </motion.p>
           <motion.p 
-            className="text-xl font-bold text-card-foreground"
+            className="text-xl font-bold text-card-foreground drop-shadow-sm"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: delay + 0.5, duration: 0.4, type: "spring" }}
@@ -177,6 +178,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           label="Total Commits"
           value={stats.totalCommits}
           color="bg-blue-500"
+          gradient="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20"
           delay={0}
         />
         
@@ -185,7 +187,12 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
             <motion.div
               animate={{ 
                 scale: stats.currentStreak > 0 ? [1, 1.2, 1] : 1,
-                rotate: stats.currentStreak > 0 ? [0, 10, -10, 0] : 0
+                rotate: stats.currentStreak > 0 ? [0, 10, -10, 0] : 0,
+                filter: stats.currentStreak > 0 ? [
+                  "drop-shadow(0 0 0px #f97316)",
+                  "drop-shadow(0 0 8px #f97316)",
+                  "drop-shadow(0 0 0px #f97316)"
+                ] : "drop-shadow(0 0 0px #f97316)"
               }}
               transition={{ 
                 duration: 2, 
@@ -199,6 +206,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           label="Current Streak"
           value={`${stats.currentStreak} day${stats.currentStreak !== 1 ? 's' : ''}`}
           color="bg-orange-500"
+          gradient="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20"
           delay={0.1}
         />
         
@@ -207,6 +215,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           label="Last Commit"
           value={formatLastCommitDate(stats.lastCommitDate)}
           color="bg-green-500"
+          gradient="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20"
           delay={0.2}
         />
         
@@ -215,6 +224,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           label="This Month"
           value={stats.commitHistory.length}
           color="bg-purple-500"
+          gradient="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20"
           delay={0.3}
         />
       </motion.div>
@@ -256,10 +266,10 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
         
         <motion.button
           onClick={handleFeedPlant}
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg"
+          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg relative overflow-hidden"
           whileHover={{ 
             scale: 1.05,
-            boxShadow: "0 10px 25px rgba(34, 197, 94, 0.3)"
+            boxShadow: "0 15px 35px rgba(34, 197, 94, 0.4)"
           }}
           whileTap={{ 
             scale: 0.95,
@@ -267,8 +277,20 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           }}
           transition={{ duration: 0.2 }}
         >
+          {/* Button shine effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            animate={{
+              x: ['-100%', '100%']
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
           <motion.div 
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 relative z-10"
             whileTap={{ scale: 0.9 }}
           >
             <motion.span
@@ -279,7 +301,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
             </motion.span>
             <span>Feed Plant</span>
             <motion.span 
-              className="text-xs bg-white/20 px-2 py-1 rounded"
+              className="text-xs bg-white/20 px-2 py-1 rounded shadow-sm"
               animate={{ 
                 backgroundColor: showRecentCommits ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.2)"
               }}

@@ -7,13 +7,19 @@ interface PlantProps {
   className?: string;
   wobble?: boolean;
   onWobbleComplete?: () => void;
+  streak?: number;
+  showMessage?: boolean;
+  onMessageComplete?: () => void;
 }
 
 export const Plant: React.FC<PlantProps> = ({ 
   health, 
   className = '', 
   wobble = false,
-  onWobbleComplete 
+  onWobbleComplete,
+  streak = 0,
+  showMessage = false,
+  onMessageComplete
 }) => {
   const getPlantEmoji = () => {
     switch (health.state) {
@@ -25,6 +31,58 @@ export const Plant: React.FC<PlantProps> = ({
     }
   };
 
+  const getSpeechBubbleMessage = () => {
+    if (showMessage) {
+      return "Thanks for coding! 💚";
+    }
+    
+    if (streak >= 7) {
+      const messages = [
+        "You're on fire! 🔥",
+        "Amazing streak! 🚀",
+        "Coding machine! ⚡",
+        "Keep it up! 💪"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+    
+    switch (health.state) {
+      case 'thriving':
+        const thrivingMessages = [
+          "I'm flourishing! 🌟",
+          "Life is good! ✨",
+          "Thanks for caring! 💚",
+          "We make a great team! 🤝"
+        ];
+        return thrivingMessages[Math.floor(Math.random() * thrivingMessages.length)];
+      case 'okay':
+        const okayMessages = [
+          "Doing well! 😊",
+          "Keep coding! 💻",
+          "I believe in you! 🌱",
+          "Steady progress! 📈"
+        ];
+        return okayMessages[Math.floor(Math.random() * okayMessages.length)];
+      case 'sad':
+        const sadMessages = [
+          "I'm feeling lonely... 😔",
+          "Missing your commits! 💔",
+          "Code with me? 🥺",
+          "I need some love! 💙"
+        ];
+        return sadMessages[Math.floor(Math.random() * sadMessages.length)];
+      case 'dying':
+        const dyingMessages = [
+          "Help me grow! 🆘",
+          "I need commits! 😵",
+          "Don't give up on me! 💔",
+          "Code saves lives! 🚨"
+        ];
+        return dyingMessages[Math.floor(Math.random() * dyingMessages.length)];
+      default:
+        return "Hello there! 👋";
+    }
+  };
   const getPlantColors = () => {
     switch (health.state) {
       case 'thriving':
@@ -32,64 +90,79 @@ export const Plant: React.FC<PlantProps> = ({
           primary: '#22C55E',
           secondary: '#16A34A',
           accent: '#F59E0B',
+          glow: '0 0 20px rgba(34, 197, 94, 0.5)',
         };
       case 'okay':
         return {
           primary: '#65A30D',
           secondary: '#4D7C0F',
           accent: '#84CC16',
+          glow: '0 0 15px rgba(101, 163, 13, 0.3)',
         };
       case 'sad':
         return {
           primary: '#A3A3A3',
           secondary: '#737373',
           accent: '#D4D4D8',
+          glow: 'none',
         };
       case 'dying':
         return {
           primary: '#A16207',
           secondary: '#92400E',
           accent: '#B45309',
+          glow: 'none',
         };
       default:
         return {
           primary: '#22C55E',
           secondary: '#16A34A',
           accent: '#F59E0B',
+          glow: '0 0 20px rgba(34, 197, 94, 0.5)',
         };
     }
   };
 
   const colors = getPlantColors();
 
+  // Calculate plant size based on health
+  const getPlantScale = () => {
+    const baseScale = 1;
+    const healthBonus = (health.current / 100) * 0.3; // Up to 30% bigger when healthy
+    return baseScale + healthBonus;
+  };
   // Animation variants for plant states
   const plantVariants = {
     thriving: { 
       y: 0, 
       rotate: 0, 
-      scale: 1,
+      scale: getPlantScale(),
       opacity: 1,
+      boxShadow: colors.glow,
       transition: { duration: 0.8, ease: "easeOut" }
     },
     okay: { 
       y: 5, 
       rotate: 0, 
-      scale: 0.95,
+      scale: getPlantScale() * 0.95,
       opacity: 1,
+      boxShadow: colors.glow,
       transition: { duration: 0.8, ease: "easeOut" }
     },
     sad: { 
       y: 10, 
       rotate: -5, 
-      scale: 0.9,
+      scale: getPlantScale() * 0.9,
       opacity: 0.8,
+      boxShadow: colors.glow,
       transition: { duration: 0.8, ease: "easeOut" }
     },
     dying: { 
       y: 15, 
       rotate: -15, 
-      scale: 0.8,
+      scale: getPlantScale() * 0.8,
       opacity: 0.6,
+      boxShadow: colors.glow,
       transition: { duration: 1, ease: "easeOut" }
     }
   };
@@ -117,7 +190,7 @@ export const Plant: React.FC<PlantProps> = ({
 
   return (
     <motion.div 
-      className={`flex flex-col items-center justify-center ${className}`}
+      className={`flex flex-col items-center justify-center relative ${className}`}
       initial={{ opacity: 0, y: 50 }}
       animate={{ 
         opacity: 1, 
@@ -126,6 +199,27 @@ export const Plant: React.FC<PlantProps> = ({
       }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      {/* Speech Bubble */}
+      <AnimatePresence>
+        {(showMessage || streak >= 7 || Math.random() < 0.1) && (
+          <motion.div
+            className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 py-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 text-sm font-medium whitespace-nowrap z-10"
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            onAnimationComplete={() => {
+              if (onMessageComplete) {
+                setTimeout(onMessageComplete, 3000);
+              }
+            }}
+          >
+            {getSpeechBubbleMessage()}
+            {/* Speech bubble tail */}
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white dark:border-t-gray-800"></div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Plant Character */}
       <motion.div 
         className="relative w-32 h-32 mb-4 transition-all duration-500 ease-in-out transform hover:scale-105"
@@ -136,9 +230,10 @@ export const Plant: React.FC<PlantProps> = ({
       >
         {/* Pot */}
         <motion.div 
-          className="absolute bottom-0 w-24 h-16 mx-auto left-1/2 transform -translate-x-1/2 rounded-b-lg transition-colors duration-500"
+          className="absolute bottom-0 w-24 h-16 mx-auto left-1/2 transform -translate-x-1/2 rounded-b-lg transition-colors duration-500 shadow-lg"
           style={{
             background: `linear-gradient(145deg, ${colors.secondary}, ${colors.primary})`,
+            boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
           }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -147,7 +242,7 @@ export const Plant: React.FC<PlantProps> = ({
         
         {/* Soil */}
         <motion.div 
-          className="absolute bottom-2 w-20 h-3 mx-auto left-1/2 transform -translate-x-1/2 rounded transition-colors duration-500"
+          className="absolute bottom-2 w-20 h-3 mx-auto left-1/2 transform -translate-x-1/2 rounded transition-colors duration-500 shadow-inner"
           style={{ backgroundColor: '#8B4513' }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -157,7 +252,7 @@ export const Plant: React.FC<PlantProps> = ({
         {/* Plant Emoji */}
         <motion.div 
           key={health.state} // Re-trigger animation on state change
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 text-6xl transition-all duration-500 ease-in-out"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 text-6xl transition-all duration-500 ease-in-out rounded-full"
           variants={plantVariants}
           initial="dying"
           animate={health.state}
@@ -236,7 +331,7 @@ export const Plant: React.FC<PlantProps> = ({
         transition={{ delay: 0.5, duration: 0.6 }}
       >
         <motion.h3 
-          className="text-xl font-bold transition-colors duration-500 capitalize text-foreground"
+          className="text-xl font-bold transition-colors duration-500 capitalize text-foreground drop-shadow-sm"
           style={{ color: colors.primary }}
           animate={{ color: colors.primary }}
           transition={{ duration: 0.5 }}
