@@ -404,7 +404,7 @@ function App() {
               >
                 <Heart className="w-4 h-4 text-primary" />
               </motion.div>
-              <span>by nocheerleader for developers who love to code</span>
+              <span>by <a href="https://x.com/nocheerleader" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors duration-200 underline">nocheerleader</a> for developers who love to code</span>
               <span className="text-primary/50 font-mono">{'/>'}</span>
             </motion.p>
             <motion.p 
