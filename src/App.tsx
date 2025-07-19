@@ -179,7 +179,7 @@ function App() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <span className="text-primary/50 text-sm font-mono">;</span>
+              <span className="text-primary/50 text-sm font-mono"></span>
               <motion.button
                 onClick={refetch}
                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-200"
