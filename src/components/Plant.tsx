@@ -209,9 +209,9 @@ export const Plant: React.FC<PlantProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Plant Character */}
-      <motion.div 
-        className="relative w-full h-32 mb-4 transition-all duration-500 ease-in-out transform hover:scale-105"
+      {{/* Plant Character */}
+      <motion.div
+        className="relative w-40 h-32 mb-4 transition-all duration-500 ease-in-out transform hover:scale-105 mx-auto"
         style={{
           filter: health.state === 'dying' ? 'grayscale(50%)' : 'none',
         }}
