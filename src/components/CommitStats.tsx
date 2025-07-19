@@ -504,4 +504,3 @@ export const CommitStatsComponent_OLD: React.FC<CommitStatsProps> = ({ stats, cl
     </div>
   );
 };
-};
