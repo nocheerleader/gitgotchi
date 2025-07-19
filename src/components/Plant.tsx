@@ -211,36 +211,16 @@ export const Plant: React.FC<PlantProps> = ({
       </AnimatePresence>
       {/* Plant Character */}
       <motion.div 
-        className="relative w-28 h-32 mb-4 transition-all duration-500 ease-in-out transform hover:scale-105"
+        className="relative h-32 mb-4 flex flex-col items-center justify-end transition-all duration-500 ease-in-out transform hover:scale-105"
         style={{
           filter: health.state === 'dying' ? 'grayscale(50%)' : 'none',
         }}
         whileHover={{ scale: 1.05 }}
       >
-        {/* Pot */}
-        <motion.div 
-          className="absolute bottom-0 w-24 h-16 left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
-          style={{
-            background: colors.primary,
-          }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        />
-        
-        {/* Soil */}
-        <motion.div 
-          className="absolute bottom-2 w-20 h-3 left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
-          style={{ backgroundColor: '#333' }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        />
-        
         {/* Plant Emoji */}
         <motion.div 
           key={health.state} // Re-trigger animation on state change
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 text-6xl transition-all duration-500 ease-in-out"
+          className="text-6xl transition-all duration-500 ease-in-out mb-2"
           variants={plantVariants}
           initial="dying"
           animate={health.state}
@@ -249,6 +229,118 @@ export const Plant: React.FC<PlantProps> = ({
           {getPlantEmoji()}
         </motion.div>
         
+        {/* Soil */}
+        <motion.div 
+          className="w-20 h-3 transition-colors duration-500 border border-border mb-1"
+          style={{ backgroundColor: '#333' }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        />
+        
+        {/* Pot */}
+        <motion.div 
+          className="w-24 h-16 transition-colors duration-500 border border-border"
+          style={{
+            background: colors.primary,
+          }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        />
+      </motion.div>
+      
+      {/* Sparkles for thriving state */}
+      <AnimatePresence>
+        {health.state === 'thriving' && (
+          <>
+            <motion.div 
+              className="absolute top-2 left-8 text-primary"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: [0, 1, 0], 
+                scale: [0, 1, 0],
+                rotate: [0, 180, 360]
+              }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              ✨
+            </motion.div>
+            <motion.div 
+              className="absolute top-6 right-6 text-primary"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: [0, 1, 0], 
+                scale: [0, 1, 0],
+                rotate: [0, -180, -360]
+              }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                delay: 0.5,
+                ease: "easeInOut"
+              }}
+            >
+              ✨
+            </motion.div>
+            <motion.div 
+              className="absolute top-12 left-6 text-primary"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: [0, 1, 0], 
+                scale: [0, 1, 0],
+                rotate: [0, 90, 180]
+              }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                delay: 1,
+                ease: "easeInOut"
+              }}
+            >
+              ✨
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+      
+      {/* Plant State Text */}
+      <motion.div 
+        className="text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+      >
+        <motion.h3 
+          className="text-xl font-bold transition-colors duration-500 capitalize text-foreground drop-shadow-sm"
+          style={{ color: colors.primary }}
+          animate={{ color: colors.primary }}
+          transition={{ duration: 0.5 }}
+        >
+          {health.state === 'okay' ? 'Healthy' : health.state}
+        </motion.h3>
+        <motion.p 
+          className="text-sm text-muted-foreground mt-1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.4 }}
+        >
+          {health.state === 'thriving' && 'Your plant is flourishing! Keep up the great work!'}
+          {health.state === 'okay' && 'Your plant is doing well. Stay consistent!'}
+          {health.state === 'sad' && 'Your plant needs attention. Code more often!'}
+          {health.state === 'dying' && 'Your plant is struggling. Get back to coding!'}
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
+};
         {/* Sparkles for thriving state */}
         <AnimatePresence>
           {health.state === 'thriving' && (
