@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, LogOut, Github, Heart, User } from 'lucide-react';
 import { Plant } from './components/Plant';
 import { HealthMeter } from './components/HealthMeter';
@@ -9,6 +10,7 @@ import { useGitHub } from './hooks/useGitHub';
 
 function App() {
   const [username, setUsername] = useState<string | null>(null);
+  const [plantWobble, setPlantWobble] = useState(false);
   const [inputLoading, setInputLoading] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
   
@@ -37,6 +39,14 @@ function App() {
     localStorage.removeItem('github_username');
   };
 
+  const handleFeedPlant = () => {
+    setPlantWobble(true);
+  };
+
+  const handleWobbleComplete = () => {
+    setPlantWobble(false);
+  };
+
   // Show username input if not set
   if (!username) {
     return (
@@ -51,12 +61,35 @@ function App() {
   // Show loading state  
   if (loading || inputLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin text-6xl mb-4">🌱</div>
-          <p className="text-muted-foreground text-lg">Loading your GitGotchi...</p>
-        </div>
-      </div>
+      <motion.div 
+        className="min-h-screen bg-background flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div 
+          className="text-center"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <motion.div 
+            className="text-6xl mb-4"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            🌱
+          </motion.div>
+          <motion.p 
+            className="text-muted-foreground text-lg"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            Loading your GitGotchi...
+          </motion.p>
+        </motion.div>
+      </motion.div>
     );
   }
 
@@ -92,121 +125,279 @@ function App() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-10">
+      <motion.header 
+        className="bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-10"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
+            <motion.div 
+              className="flex items-center space-x-3"
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <motion.div 
+                className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center"
+                whileHover={{ scale: 1.1, rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
                 <span className="text-xl">🌱</span>
-              </div>
+              </motion.div>
               <div>
-                <h1 className="text-xl font-bold text-card-foreground">GitGotchi</h1>
-                <p className="text-sm text-muted-foreground">
+                <motion.h1 
+                  className="text-xl font-bold text-card-foreground"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                >
+                  GitGotchi
+                </motion.h1>
+                <motion.p 
+                  className="text-sm text-muted-foreground"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.4 }}
+                >
                   Hello, {user?.name || user?.login}!
-                </p>
+                </motion.p>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="flex items-center space-x-3">
-              <button
+            <motion.div 
+              className="flex items-center space-x-3"
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <motion.button
                 onClick={refetch}
                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200"
                 title="Refresh data"
+                whileHover={{ scale: 1.1, rotate: 180 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <RefreshCw className="w-5 h-5" />
-              </button>
+              </motion.button>
               
               <ThemeToggle />
               
-              <a
+              <motion.a
                 href={`https://github.com/${user?.login}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200"
                 title="View GitHub profile"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Github className="w-5 h-5" />
-              </a>
+              </motion.a>
               
-              <button
+              <motion.button
                 onClick={handleLogout}
                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200"
                 title="Change username"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <User className="w-5 h-5" />
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+      <motion.main 
+        className="max-w-6xl mx-auto px-4 py-8"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+      >
+        <motion.div 
+          className="grid lg:grid-cols-2 gap-8 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+        >
           {/* Plant Section */}
-          <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-card-foreground mb-2">Your Coding Companion</h2>
-              <p className="text-muted-foreground">Keep coding to keep your plant healthy!</p>
-            </div>
+          <motion.div 
+            className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            whileHover={{ y: -5, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
+          >
+            <motion.div 
+              className="text-center mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              <motion.h2 
+                className="text-2xl font-bold text-card-foreground mb-2"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.9, duration: 0.4 }}
+              >
+                Your Coding Companion
+              </motion.h2>
+              <motion.p 
+                className="text-muted-foreground"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.4 }}
+              >
+                Keep coding to keep your plant healthy!
+              </motion.p>
+            </motion.div>
             
             {health && (
               <>
-                <Plant health={health} className="mb-6" />
+                <Plant 
+                  health={health} 
+                  className="mb-6" 
+                  wobble={plantWobble}
+                  onWobbleComplete={handleWobbleComplete}
+                />
                 <HealthMeter health={health.current} />
               </>
             )}
-          </div>
+          </motion.div>
 
           {/* Stats Section */}
-          <div className="space-y-6">
-            <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border">
-              <h2 className="text-2xl font-bold text-card-foreground mb-6">Commit Statistics</h2>
-              {stats && <CommitStatsComponent stats={stats} />}
-            </div>
-          </div>
-        </div>
+          <motion.div 
+            className="space-y-6"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.7 }}
+          >
+            <motion.div 
+              className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
+              whileHover={{ y: -5, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
+            >
+              <motion.h2 
+                className="text-2xl font-bold text-card-foreground mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.5 }}
+              >
+                Commit Statistics
+              </motion.h2>
+              {stats && (
+                <CommitStatsComponent 
+                  stats={stats} 
+                  onFeedPlant={handleFeedPlant}
+                />
+              )}
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         {/* Tips Section */}
-        <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border">
-          <h2 className="text-2xl font-bold text-card-foreground mb-6">💡 Pro Tips</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center p-4 bg-accent rounded-lg border border-border">
+        <motion.div 
+          className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          whileHover={{ y: -5, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
+        >
+          <motion.h2 
+            className="text-2xl font-bold text-card-foreground mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            💡 Pro Tips
+          </motion.h2>
+          <motion.div 
+            className="grid md:grid-cols-3 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.3, duration: 0.6 }}
+          >
+            <motion.div 
+              className="text-center p-4 bg-accent rounded-lg border border-border"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <span className="text-3xl mb-3 block">🌱</span>
               <h3 className="font-semibold text-accent-foreground mb-2">Daily Commits</h3>
               <p className="text-sm text-muted-foreground">Commit code daily to keep your plant healthy and growing!</p>
-            </div>
+            </motion.div>
             
-            <div className="text-center p-4 bg-accent rounded-lg border border-border">
+            <motion.div 
+              className="text-center p-4 bg-accent rounded-lg border border-border"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <span className="text-3xl mb-3 block">🔥</span>
               <h3 className="font-semibold text-accent-foreground mb-2">Build Streaks</h3>
               <p className="text-sm text-muted-foreground">Consistent coding creates longer streaks and happier plants!</p>
-            </div>
+            </motion.div>
             
-            <div className="text-center p-4 bg-accent rounded-lg border border-border">
+            <motion.div 
+              className="text-center p-4 bg-accent rounded-lg border border-border"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <span className="text-3xl mb-3 block">📚</span>
               <h3 className="font-semibold text-accent-foreground mb-2">Learn & Grow</h3>
               <p className="text-sm text-muted-foreground">Every commit is a step forward in your coding journey!</p>
-            </div>
-          </div>
-        </div>
-      </main>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </motion.main>
 
       {/* Footer */}
-      <footer className="bg-card/80 backdrop-blur-sm border-t border-border mt-16">
+      <motion.footer 
+        className="bg-card/80 backdrop-blur-sm border-t border-border mt-16"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.7, duration: 0.6 }}
+      >
         <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="text-center text-muted-foreground">
-            <p className="flex items-center justify-center space-x-2">
+          <motion.div 
+            className="text-center text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.5 }}
+          >
+            <motion.p 
+              className="flex items-center justify-center space-x-2"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1.9, duration: 0.4 }}
+            >
               <span>Made with</span>
-              <Heart className="w-4 h-4 text-red-500" />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <Heart className="w-4 h-4 text-red-500" />
+              </motion.div>
               <span>for developers who love to code</span>
-            </p>
-            <p className="text-sm mt-2">
+            </motion.p>
+            <motion.p 
+              className="text-sm mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 0.4 }}
+            >
               GitGotchi • Gamify your coding habits • Built with React & TypeScript
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }
