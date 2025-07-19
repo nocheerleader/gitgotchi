@@ -404,7 +404,7 @@ function App() {
               >
                 <Heart className="w-4 h-4 text-primary" />
               </motion.div>
-              <span>for developers who love to code</span>
+              <span>by nocheerleader for developers who love to code</span>
               <span className="text-primary/50 font-mono">{'/>'}</span>
             </motion.p>
             <motion.p 
