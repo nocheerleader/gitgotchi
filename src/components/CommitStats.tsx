@@ -32,14 +32,14 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
     if (diffDays === 1) return 'Yesterday';
     if (diffDays < 7) return `${diffDays} days ago`;
     
-    return date.toLocaleDateString();
+    return date.toLocaleDateString('en-GB');
   };
 
   const getRecentCommits = () => {
     const recent = stats.commitHistory.slice(0, 5);
     return recent.map(date => ({
       date,
-      formatted: date.toLocaleDateString(),
+      formatted: date.toLocaleDateString('en-GB'),
       timeFormatted: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }));
   };
