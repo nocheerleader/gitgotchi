@@ -219,7 +219,7 @@ export const Plant: React.FC<PlantProps> = ({
       >
         {/* Pot */}
         <motion.div 
-          className="absolute bottom-0 w-24 h-16 mx-auto left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
+          className="absolute bottom-0 w-24 h-16 left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
           style={{
             background: colors.primary,
           }}
@@ -230,7 +230,7 @@ export const Plant: React.FC<PlantProps> = ({
         
         {/* Soil */}
         <motion.div 
-          className="absolute bottom-2 w-20 h-3 mx-auto left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
+          className="absolute bottom-2 w-20 h-3 left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
           style={{ backgroundColor: '#333' }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
