@@ -192,7 +192,7 @@ export const Plant: React.FC<PlantProps> = ({
       <AnimatePresence>
         {(showMessage || streak >= 7 || Math.random() < 0.1) && (
           <motion.div
-            className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white px-4 py-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 text-sm font-medium whitespace-nowrap z-10"
+            className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-card text-card-foreground px-4 py-2 border border-border text-sm font-medium whitespace-nowrap z-10"
             initial={{ opacity: 0, scale: 0, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0, y: -20 }}
@@ -205,7 +205,7 @@ export const Plant: React.FC<PlantProps> = ({
           >
             {getSpeechBubbleMessage()}
             {/* Speech bubble tail */}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white dark:border-t-gray-800"></div>
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-card"></div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -219,10 +219,9 @@ export const Plant: React.FC<PlantProps> = ({
       >
         {/* Pot */}
         <motion.div 
-          className="absolute bottom-0 w-24 h-16 mx-auto left-1/2 transform -translate-x-1/2 rounded-b-lg transition-colors duration-500 shadow-lg"
+          className="absolute bottom-0 w-24 h-16 mx-auto left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
           style={{
-            background: `linear-gradient(145deg, ${colors.secondary}, ${colors.primary})`,
-            boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            background: colors.primary,
           }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -231,8 +230,8 @@ export const Plant: React.FC<PlantProps> = ({
         
         {/* Soil */}
         <motion.div 
-          className="absolute bottom-2 w-20 h-3 mx-auto left-1/2 transform -translate-x-1/2 rounded transition-colors duration-500 shadow-inner"
-          style={{ backgroundColor: '#8B4513' }}
+          className="absolute bottom-2 w-20 h-3 mx-auto left-1/2 transform -translate-x-1/2 transition-colors duration-500 border border-border"
+          style={{ backgroundColor: '#333' }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
@@ -241,7 +240,7 @@ export const Plant: React.FC<PlantProps> = ({
         {/* Plant Emoji */}
         <motion.div 
           key={health.state} // Re-trigger animation on state change
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 text-6xl transition-all duration-500 ease-in-out rounded-full"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 text-6xl transition-all duration-500 ease-in-out"
           variants={plantVariants}
           initial="dying"
           animate={health.state}
@@ -255,7 +254,7 @@ export const Plant: React.FC<PlantProps> = ({
           {health.state === 'thriving' && (
             <>
               <motion.div 
-                className="absolute top-2 left-8 text-yellow-400"
+                className="absolute top-2 left-8 text-primary"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
                   opacity: [0, 1, 0], 
@@ -272,7 +271,7 @@ export const Plant: React.FC<PlantProps> = ({
                 ✨
               </motion.div>
               <motion.div 
-                className="absolute top-6 right-6 text-yellow-400"
+                className="absolute top-6 right-6 text-primary"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
                   opacity: [0, 1, 0], 
@@ -290,7 +289,7 @@ export const Plant: React.FC<PlantProps> = ({
                 ✨
               </motion.div>
               <motion.div 
-                className="absolute top-12 left-6 text-yellow-400"
+                className="absolute top-12 left-6 text-primary"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
                   opacity: [0, 1, 0], 

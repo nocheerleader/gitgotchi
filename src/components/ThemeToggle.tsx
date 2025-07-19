@@ -9,7 +9,7 @@ export const ThemeToggle: React.FC = () => {
   return (
     <motion.button
       onClick={toggleTheme}
-      className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-300 group"
+      className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-300 group"
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       whileHover={{ scale: 1.1 }}
@@ -45,7 +45,7 @@ export const ThemeToggle: React.FC = () => {
       
       {/* Hover tooltip */}
       <motion.div 
-        className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded pointer-events-none whitespace-nowrap shadow-lg border border-border"
+        className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs pointer-events-none whitespace-nowrap border border-border"
         initial={{ opacity: 0, y: -5 }}
         whileHover={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}

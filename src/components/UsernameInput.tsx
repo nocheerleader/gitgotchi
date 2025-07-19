@@ -42,10 +42,10 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="bg-card rounded-2xl shadow-2xl p-8 max-w-md w-full border border-border">
+      <div className="bg-card p-8 max-w-md w-full border border-border">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <div className="w-20 h-20 bg-primary border border-border flex items-center justify-center mx-auto mb-4">
             <span className="text-4xl">🌱</span>
           </div>
           <h1 className="text-3xl font-bold text-card-foreground mb-2">GitGotchi</h1>
@@ -57,20 +57,20 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
         {/* Features */}
         <div className="space-y-3 mb-8">
           <div className="flex items-center space-x-3 text-sm text-card-foreground">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <span className="text-green-600">🌿</span>
+            <div className="w-8 h-8 bg-accent border border-border flex items-center justify-center">
+              <span className="text-primary">🌿</span>
             </div>
             <span>Track your GitHub commit streaks</span>
           </div>
           <div className="flex items-center space-x-3 text-sm text-card-foreground">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-blue-600">📊</span>
+            <div className="w-8 h-8 bg-accent border border-border flex items-center justify-center">
+              <span className="text-primary">📊</span>
             </div>
             <span>Visualize your coding consistency</span>
           </div>
           <div className="flex items-center space-x-3 text-sm text-card-foreground">
-            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-              <span className="text-purple-600">🎮</span>
+            <div className="w-8 h-8 bg-accent border border-border flex items-center justify-center">
+              <span className="text-primary">🎮</span>
             </div>
             <span>Gamify your development journey</span>
           </div>
@@ -78,7 +78,7 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
 
         {/* Error Messages */}
         {(error || inputError) && (
-          <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg flex items-start space-x-3">
+          <div className="mb-6 p-4 bg-background border border-destructive flex items-start space-x-3">
             <AlertCircle className="w-5 h-5 text-destructive mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-destructive text-sm font-medium">Error</p>
@@ -102,7 +102,7 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
                 onChange={handleInputChange}
                 placeholder="Enter your GitHub username"
                 disabled={loading}
-                className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-foreground placeholder-muted-foreground disabled:opacity-50"
+                className="w-full pl-10 pr-4 py-3 bg-input border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-foreground placeholder-muted-foreground disabled:opacity-50"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
           <button
             type="submit"
             disabled={loading || !username.trim()}
-            className="w-full bg-primary hover:bg-primary/90 disabled:bg-muted text-primary-foreground font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none disabled:cursor-not-allowed"
+            className="w-full bg-primary hover:bg-primary/90 disabled:bg-muted text-primary-foreground font-semibold py-4 px-6 border border-border transition-all duration-300 flex items-center justify-center space-x-3 transform hover:-translate-y-0.5 disabled:transform-none disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
@@ -127,14 +127,14 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
         </form>
 
         {/* Info Notice */}
-        <div className="mt-6 p-4 bg-muted rounded-lg">
+        <div className="mt-6 p-4 bg-muted border border-border">
           <p className="text-xs text-muted-foreground text-center leading-relaxed">
             We only access your public GitHub activity. No authentication required!
           </p>
         </div>
 
         {/* Limitations Notice */}
-        <div className="mt-4 p-4 bg-accent rounded-lg border border-border">
+        <div className="mt-4 p-4 bg-accent border border-border">
           <h4 className="text-sm font-semibold text-accent-foreground mb-2">Note</h4>
           <p className="text-xs text-accent-foreground leading-relaxed">
             GitGotchi tracks commits from public repositories only. Private repository 

@@ -111,17 +111,14 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
     icon: React.ReactNode; 
     label: string; 
     value: string | number; 
-    color: string;
-    gradient: string;
     delay?: number;
-  }> = ({ icon, label, value, color, gradient, delay = 0 }) => (
+  }> = ({ icon, label, value, delay = 0 }) => (
     <motion.div 
-      className={`rounded-lg p-4 shadow-lg border border-border ${gradient}`}
+      className="p-4 border border-border bg-card"
       variants={cardVariants}
       whileHover={{ 
-        scale: 1.05, 
-        y: -5,
-        boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
+        scale: 1.02, 
+        y: -2,
         transition: { duration: 0.2 }
       }}
       whileTap={{ scale: 0.98 }}
@@ -133,7 +130,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
         transition={{ delay: delay + 0.3, duration: 0.4 }}
       >
         <motion.div 
-          className={`p-2 rounded-lg ${color} shadow-md`}
+          className="p-2 bg-primary border border-border"
           whileHover={{ rotate: 360 }}
           transition={{ duration: 0.5 }}
         >
@@ -177,8 +174,6 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           icon={<GitCommit className="w-5 h-5 text-white" />}
           label="Total Commits"
           value={stats.totalCommits}
-          color="bg-blue-500"
-          gradient="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20"
           delay={0}
         />
         
@@ -205,8 +200,6 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           }
           label="Current Streak"
           value={`${stats.currentStreak} day${stats.currentStreak !== 1 ? 's' : ''}`}
-          color="bg-orange-500"
-          gradient="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20"
           delay={0.1}
         />
         
@@ -214,8 +207,6 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           icon={<Clock className="w-5 h-5 text-white" />}
           label="Last Commit"
           value={formatLastCommitDate(stats.lastCommitDate)}
-          color="bg-green-500"
-          gradient="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20"
           delay={0.2}
         />
         
@@ -223,8 +214,6 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
           icon={<Calendar className="w-5 h-5 text-white" />}
           label="This Month"
           value={stats.commitHistory.length}
-          color="bg-purple-500"
-          gradient="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20"
           delay={0.3}
         />
       </motion.div>
@@ -266,20 +255,18 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
         
         <motion.button
           onClick={handleFeedPlant}
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg relative overflow-hidden"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 border border-border relative overflow-hidden"
           whileHover={{ 
-            scale: 1.05,
-            boxShadow: "0 15px 35px rgba(34, 197, 94, 0.4)"
+            scale: 1.02
           }}
           whileTap={{ 
-            scale: 0.95,
-            boxShadow: "0 5px 15px rgba(34, 197, 94, 0.2)"
+            scale: 0.95
           }}
           transition={{ duration: 0.2 }}
         >
           {/* Button shine effect */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent"
             animate={{
               x: ['-100%', '100%']
             }}
@@ -301,9 +288,9 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
             </motion.span>
             <span>Feed Plant</span>
             <motion.span 
-              className="text-xs bg-white/20 px-2 py-1 rounded shadow-sm"
+              className="text-xs bg-primary-foreground/20 px-2 py-1 border border-border"
               animate={{ 
-                backgroundColor: showRecentCommits ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.2)"
+                backgroundColor: showRecentCommits ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.2)"
               }}
             >
               {showRecentCommits ? 'Hide' : 'Show'} Recent Commits
@@ -324,7 +311,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
       >
         {showRecentCommits && (
           <motion.div 
-            className="bg-card rounded-lg shadow-lg border border-border overflow-hidden"
+            className="bg-card border border-border overflow-hidden"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.3 }}
@@ -343,7 +330,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
                 getRecentCommits().map((commit, index) => (
                   <motion.div
                     key={index}
-                    className="px-4 py-3 border-b border-border last:border-b-0 hover:bg-accent transition-colors duration-200"
+                    className="px-4 py-3 border-b border-border last:border-b-0 hover:bg-accent hover:border-primary transition-colors duration-200"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
@@ -352,7 +339,7 @@ export const CommitStatsComponent: React.FC<CommitStatsProps> = ({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <motion.div 
-                          className="w-2 h-2 bg-green-500 rounded-full"
+                          className="w-2 h-2 bg-primary"
                           animate={{ scale: [1, 1.2, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />

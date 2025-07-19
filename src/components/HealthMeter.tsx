@@ -46,13 +46,13 @@ export const HealthMeter: React.FC<HealthMeterProps> = ({ health, className = ''
       </motion.div>
       
       <motion.div 
-        className="w-full bg-muted rounded-full h-4 overflow-hidden shadow-inner"
+        className="w-full bg-muted h-4 overflow-hidden border border-border"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
       >
         <motion.div
-          className="h-full rounded-full relative overflow-hidden"
+          className="h-full relative overflow-hidden"
           style={{
             background: getHealthGradient(health),
           }}
@@ -68,7 +68,7 @@ export const HealthMeter: React.FC<HealthMeterProps> = ({ health, className = ''
         >
           {/* Animated shine effect */}
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-30 animate-pulse"
             animate={{
               x: ['-100%', '100%']
             }}
@@ -89,40 +89,40 @@ export const HealthMeter: React.FC<HealthMeterProps> = ({ health, className = ''
         transition={{ delay: 0.8, duration: 0.4 }}
       >
         <motion.span 
-          className={health >= 76 ? 'font-semibold text-green-600' : ''}
+          className={health >= 76 ? 'font-semibold text-primary' : ''}
           animate={{ 
             scale: health >= 76 ? 1.1 : 1,
-            color: health >= 76 ? '#16A34A' : undefined
+            color: health >= 76 ? '#00ff00' : undefined
           }}
           transition={{ duration: 0.3 }}
         >
           Thriving
         </motion.span>
         <motion.span 
-          className={health >= 51 && health < 76 ? 'font-semibold text-lime-600' : ''}
+          className={health >= 51 && health < 76 ? 'font-semibold text-primary' : ''}
           animate={{ 
             scale: health >= 51 && health < 76 ? 1.1 : 1,
-            color: health >= 51 && health < 76 ? '#65A30D' : undefined
+            color: health >= 51 && health < 76 ? '#00ff00' : undefined
           }}
           transition={{ duration: 0.3 }}
         >
           Healthy
         </motion.span>
         <motion.span 
-          className={health >= 26 && health < 51 ? 'font-semibold text-orange-600' : ''}
+          className={health >= 26 && health < 51 ? 'font-semibold text-yellow-500' : ''}
           animate={{ 
             scale: health >= 26 && health < 51 ? 1.1 : 1,
-            color: health >= 26 && health < 51 ? '#F59E0B' : undefined
+            color: health >= 26 && health < 51 ? '#ffff00' : undefined
           }}
           transition={{ duration: 0.3 }}
         >
           Sad
         </motion.span>
         <motion.span 
-          className={health < 26 ? 'font-semibold text-red-600' : ''}
+          className={health < 26 ? 'font-semibold text-red-500' : ''}
           animate={{ 
             scale: health < 26 ? 1.1 : 1,
-            color: health < 26 ? '#EF4444' : undefined
+            color: health < 26 ? '#ff0000' : undefined
           }}
           transition={{ duration: 0.3 }}
         >

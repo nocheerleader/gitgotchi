@@ -131,7 +131,7 @@ function App() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.header 
-        className="bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm border-b border-border sticky top-0 z-10 shadow-sm"
+        className="bg-card border-b border-border sticky top-0 z-10"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -144,9 +144,9 @@ function App() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <span className="text-muted-foreground/30 text-lg font-mono">{'{'}</span>
+              <span className="text-primary/50 text-lg font-mono">{'{'}</span>
               <motion.div 
-                className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg"
+                className="w-10 h-10 bg-primary border border-border flex items-center justify-center"
                 whileHover={{ scale: 1.1, rotate: 360 }}
                 transition={{ duration: 0.5 }}
               >
@@ -170,7 +170,7 @@ function App() {
                   Hello, {user?.name || user?.login}!
                 </motion.p>
               </div>
-              <span className="text-muted-foreground/30 text-lg font-mono">{'}'}</span>
+              <span className="text-primary/50 text-lg font-mono">{'}'}</span>
             </motion.div>
             
             <motion.div 
@@ -179,10 +179,10 @@ function App() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <span className="text-muted-foreground/30 text-sm font-mono">;</span>
+              <span className="text-primary/50 text-sm font-mono">;</span>
               <motion.button
                 onClick={refetch}
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 shadow-sm"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-200"
                 title="Refresh data"
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 whileTap={{ scale: 0.9 }}
@@ -196,7 +196,7 @@ function App() {
                 href={`https://github.com/${user?.login}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 shadow-sm"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-200"
                 title="View GitHub profile"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -206,7 +206,7 @@ function App() {
               
               <motion.button
                 onClick={handleLogout}
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 shadow-sm"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-200"
                 title="Change username"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -233,11 +233,11 @@ function App() {
         >
           {/* Plant Section */}
           <motion.div 
-            className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
+            className="bg-card p-8 border border-border"
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            whileHover={{ y: -5, boxShadow: "0 30px 60px rgba(0,0,0,0.15)" }}
+            whileHover={{ y: -2 }}
           >
             <motion.div 
               className="text-center mb-6"
@@ -287,8 +287,8 @@ function App() {
             transition={{ delay: 0.7, duration: 0.7 }}
           >
             <motion.div 
-              className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
-              whileHover={{ y: -5, boxShadow: "0 30px 60px rgba(0,0,0,0.15)" }}
+              className="bg-card p-8 border border-border"
+              whileHover={{ y: -2 }}
             >
               <motion.h2 
                 className="text-2xl font-bold text-card-foreground mb-6 drop-shadow-sm"
@@ -310,11 +310,11 @@ function App() {
 
         {/* Tips Section */}
         <motion.div 
-          className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-border"
+          className="bg-card p-8 border border-border"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.8 }}
-          whileHover={{ y: -5, boxShadow: "0 30px 60px rgba(0,0,0,0.15)" }}
+          whileHover={{ y: -2 }}
         >
           <motion.h2 
             className="text-2xl font-bold text-card-foreground mb-6 drop-shadow-sm"
@@ -331,11 +331,11 @@ function App() {
             transition={{ delay: 1.3, duration: 0.6 }}
           >
             <motion.div 
-              className="text-center p-4 bg-gradient-to-br from-accent to-accent/80 rounded-lg border border-border shadow-md"
+              className="text-center p-4 bg-accent border border-border"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              whileHover={{ scale: 1.02, y: -2 }}
             >
               <span className="text-3xl mb-3 block">🌱</span>
               <h3 className="font-semibold text-accent-foreground mb-2 drop-shadow-sm">Daily Commits</h3>
@@ -343,11 +343,11 @@ function App() {
             </motion.div>
             
             <motion.div 
-              className="text-center p-4 bg-gradient-to-br from-accent to-accent/80 rounded-lg border border-border shadow-md"
+              className="text-center p-4 bg-accent border border-border"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              whileHover={{ scale: 1.02, y: -2 }}
             >
               <span className="text-3xl mb-3 block">🔥</span>
               <h3 className="font-semibold text-accent-foreground mb-2 drop-shadow-sm">Build Streaks</h3>
@@ -355,11 +355,11 @@ function App() {
             </motion.div>
             
             <motion.div 
-              className="text-center p-4 bg-gradient-to-br from-accent to-accent/80 rounded-lg border border-border shadow-md"
+              className="text-center p-4 bg-accent border border-border"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.6, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              whileHover={{ scale: 1.02, y: -2 }}
             >
               <span className="text-3xl mb-3 block">📚</span>
               <h3 className="font-semibold text-accent-foreground mb-2 drop-shadow-sm">Learn & Grow</h3>
@@ -371,7 +371,7 @@ function App() {
 
       {/* Footer */}
       <motion.footer 
-        className="bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm border-t border-border mt-16 shadow-sm"
+        className="bg-card border-t border-border mt-16"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.7, duration: 0.6 }}
@@ -389,23 +389,23 @@ function App() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1.9, duration: 0.4 }}
             >
-              <span className="text-muted-foreground/30 font-mono">{'<'}</span>
+              <span className="text-primary/50 font-mono">{'<'}</span>
               <span>Made with</span>
               <motion.div
                 animate={{ 
                   scale: [1, 1.3, 1],
                   filter: [
-                    "drop-shadow(0 0 0px #ef4444)",
-                    "drop-shadow(0 0 8px #ef4444)",
-                    "drop-shadow(0 0 0px #ef4444)"
+                    "drop-shadow(0 0 0px #00ff00)",
+                    "drop-shadow(0 0 8px #00ff00)",
+                    "drop-shadow(0 0 0px #00ff00)"
                   ]
                 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               >
-                <Heart className="w-4 h-4 text-red-500" />
+                <Heart className="w-4 h-4 text-primary" />
               </motion.div>
               <span>for developers who love to code</span>
-              <span className="text-muted-foreground/30 font-mono">{'/>'}</span>
+              <span className="text-primary/50 font-mono">{'/>'}</span>
             </motion.p>
             <motion.p 
               className="text-sm mt-2"
