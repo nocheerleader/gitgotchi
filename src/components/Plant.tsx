@@ -178,24 +178,13 @@ export const Plant: React.FC<PlantProps> = ({
     }
   } : {};
 
-  // Breathing animation for idle state
-  const breathingAnimation = {
-    scale: [1, 1.02, 1],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
-  };
-
   return (
     <motion.div 
       className={`flex flex-col items-center justify-center relative ${className}`}
       initial={{ opacity: 0, y: 50 }}
       animate={{ 
         opacity: 1, 
-        y: 0,
-        ...breathingAnimation
+        y: 0
       }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
