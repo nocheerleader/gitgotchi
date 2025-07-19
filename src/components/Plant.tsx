@@ -209,7 +209,7 @@ export const Plant: React.FC<PlantProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-      {{/* Plant Character */}
+      {/* Plant Character */}
       <motion.div
         className="relative w-40 h-32 mb-4 transition-all duration-500 ease-in-out transform hover:scale-105 mx-auto"
         style={{
