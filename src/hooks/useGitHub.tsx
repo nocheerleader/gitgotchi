@@ -27,7 +27,6 @@ export const useGitHub = (username: string | null) => {
   const fetchUserData = useCallback(async (forceRefresh = false) => {
     if (!username) return;
 
-    // Set loading state - use refreshing for manual refresh, loading for initial load
     setState(prev => ({ 
       ...prev, 
       [forceRefresh ? 'refreshing' : 'loading']: true, 
@@ -55,9 +54,19 @@ export const useGitHub = (username: string | null) => {
       
       console.log('Data fetched successfully');
     } catch (error) {
-      const errorMessage = error instanceof GitHubApiError 
-        ? error.message 
-        : 'An unexpected error occurred';
+      console.error('Detailed error:', error);
+      
+      let errorMessage = 'An unexpected error occurred';
+      
+      if (error instanceof GitHubApiError) {
+        errorMessage = error.message;
+      } else if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = 'Network error - please check your internet connection and try again';
+      } else if (error instanceof SyntaxError) {
+        errorMessage = 'Invalid response from GitHub API';
+      } else if (error instanceof Error) {
+        errorMessage = `Error: ${error.message}`;
+      }
       
       setState(prev => ({
         ...prev,
@@ -65,17 +74,15 @@ export const useGitHub = (username: string | null) => {
         refreshing: false,
         error: errorMessage,
       }));
-      
-      console.error('Error fetching data:', error);
     }
   }, [username]);
 
   useEffect(() => {
-    fetchUserData(false); // Initial load without force refresh
+    fetchUserData(false);
   }, [fetchUserData]);
 
   const refetch = useCallback(() => {
-    fetchUserData(true); // Force refresh when manually triggered
+    fetchUserData(true);
   }, [fetchUserData]);
 
   return {

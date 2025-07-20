@@ -8,7 +8,7 @@ export class GitHubApiError extends Error {
 }
 
 export const getGitHubUser = async (username: string, forceRefresh = false) => {
-  // Add cache-busting parameter when forcing refresh
+  // Add cache-busting parameter when forcing refresh (this works without CORS issues)
   const url = forceRefresh 
     ? `${GITHUB_API_BASE}/users/${username}?_=${Date.now()}`
     : `${GITHUB_API_BASE}/users/${username}`;
@@ -16,12 +16,7 @@ export const getGitHubUser = async (username: string, forceRefresh = false) => {
   const response = await fetch(url, {
     headers: {
       Accept: 'application/vnd.github.v3+json',
-      // Add cache control headers for refresh
-      ...(forceRefresh && {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      })
+      // Remove the problematic cache-control headers that cause CORS issues
     },
   });
   
@@ -52,7 +47,7 @@ export const getGitHubUser = async (username: string, forceRefresh = false) => {
 };
 
 export const getUserEvents = async (username: string, forceRefresh = false) => {
-  // Add cache-busting parameter when forcing refresh
+  // Add cache-busting parameter when forcing refresh (this works without CORS issues)
   const url = forceRefresh 
     ? `${GITHUB_API_BASE}/users/${username}/events?per_page=100&_=${Date.now()}`
     : `${GITHUB_API_BASE}/users/${username}/events?per_page=100`;
@@ -60,12 +55,7 @@ export const getUserEvents = async (username: string, forceRefresh = false) => {
   const response = await fetch(url, {
     headers: {
       Accept: 'application/vnd.github.v3+json',
-      // Add cache control headers for refresh
-      ...(forceRefresh && {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      })
+      // Remove the problematic cache-control headers that cause CORS issues
     },
   });
   
