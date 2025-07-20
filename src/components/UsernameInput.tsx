@@ -132,15 +132,6 @@ export const UsernameInput: React.FC<UsernameInputProps> = ({
             We only access your public GitHub activity. No authentication required!
           </p>
         </div>
-
-        {/* Limitations Notice */}
-        <div className="mt-4 p-4 bg-accent border border-border">
-          <h4 className="text-sm font-semibold text-accent-foreground mb-2">Note</h4>
-          <p className="text-xs text-accent-foreground leading-relaxed">
-            GitGotchi tracks commits from public repositories only. Private repository 
-            activity won't be reflected in your plant's health.
-          </p>
-        </div>
       </div>
     </div>
   );
