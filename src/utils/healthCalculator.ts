@@ -112,15 +112,16 @@ export const calculateHealth = (commitHistory: Date[]): PlantHealth => {
       consecutiveMisses++;
       
       if (consecutiveMisses === 1) {
-        health -= 5; // Small penalty for missing one day
-      } else if (consecutiveMisses >= 3) {
-        health -= 15; // Larger penalty for consecutive misses
+        health -= 2; // Reduced penalty for missing one day (was -5)
+      } else if (consecutiveMisses >= 5) {
+        health -= 5; // Reduced penalty for consecutive misses (was -15, threshold was 3+)
       }
+      // Days 2-4 have no additional penalty to be more forgiving
     }
   }
   
-  // Cap health between 0 and 100
-  health = Math.max(0, Math.min(100, health));
+  // Cap health between 10 and 100 (minimum health floor increased from 0 to 10)
+  health = Math.max(10, Math.min(100, health));
   
   // Determine plant state
   let state: PlantHealth['state'];
