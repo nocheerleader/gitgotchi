@@ -14,8 +14,9 @@ function App() {
   const [showPlantMessage, setShowPlantMessage] = useState(false);
   const [inputLoading, setInputLoading] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
+  const [showRefreshSuccess, setShowRefreshSuccess] = useState(false); // Add success feedback
   
-  const { user, stats, health, loading, error, refetch } = useGitHub(username);
+  const { user, stats, health, loading, refreshing, error, refetch, lastRefresh } = useGitHub(username);
 
   // Load username from localStorage on mount
   useEffect(() => {
@@ -51,6 +52,18 @@ function App() {
 
   const handleMessageComplete = () => {
     setShowPlantMessage(false);
+  };
+
+  // Handle refresh with success feedback
+  const handleRefresh = () => {
+    refetch();
+    // Show success message after refresh completes
+    if (!refreshing) {
+      setTimeout(() => {
+        setShowRefreshSuccess(true);
+        setTimeout(() => setShowRefreshSuccess(false), 2000);
+      }, 1000);
+    }
   };
   // Show username input if not set
   if (!username) {
@@ -181,15 +194,47 @@ function App() {
             >
               <span className="text-primary/50 text-sm font-mono"></span>
               <motion.button
-                onClick={refetch}
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent hover:border-border transition-all duration-200"
-                title="Refresh data"
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                whileTap={{ scale: 0.9 }}
+                onClick={handleRefresh}
+                disabled={refreshing} // Disable while refreshing
+                className={`p-2 transition-all duration-200 border border-transparent ${
+                  refreshing 
+                    ? 'text-primary bg-accent border-border cursor-not-allowed' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent hover:border-border'
+                }`}
+                title={refreshing ? "Refreshing..." : "Refresh data"}
+                whileHover={refreshing ? {} : { scale: 1.1, rotate: 180 }}
+                whileTap={refreshing ? {} : { scale: 0.9 }}
               >
-                <RefreshCw className="w-5 h-5" />
+                <motion.div
+                  animate={refreshing ? { rotate: 360 } : { rotate: 0 }}
+                  transition={refreshing ? { duration: 1, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+                >
+                  <RefreshCw className="w-5 h-5" />
+                </motion.div>
               </motion.button>
               
+              {/* Success feedback tooltip */}
+              {showRefreshSuccess && (
+                <motion.div
+                  className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 bg-green-500 text-white text-xs rounded shadow-lg z-50"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  ✓ Data refreshed!
+                </motion.div>
+              )}
+
+              {/* Last refresh time indicator */}
+              {lastRefresh && !refreshing && (
+                <motion.div
+                  className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-muted text-muted-foreground text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                  initial={{ opacity: 0 }}
+                >
+                  Last updated: {lastRefresh.toLocaleTimeString()}
+                </motion.div>
+              )}
+
               <ThemeToggle />
               
               <motion.a
